@@ -21,11 +21,9 @@ public class TestServer implements Runnable{
 	private static final int BUF_SIZE = 1024;
 
 	private int port;
-	private InetAddress addr;
 	private Selector selector;
 
 	public TestServer(InetAddress addr, int port){
-		this.addr = addr;
 		this.port = port;
 	}
 
