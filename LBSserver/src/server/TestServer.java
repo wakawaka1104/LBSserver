@@ -9,16 +9,10 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class TestServer implements Runnable{
-
-	/*
-	 * 送信されたデータをそのままコールバックするエコーサーバ
-	 */
-
-
-	private static final int BUF_SIZE = 1024;
 
 	private int port;
 	private Selector selector;
@@ -73,17 +67,32 @@ public class TestServer implements Runnable{
 	}
 
 	private void doRead(SocketChannel channel){
-		ByteBuffer buf = ByteBuffer.allocate(BUF_SIZE);
+		ArrayList<ByteBuffer> bufferList = new ArrayList<ByteBuffer>();
+		bufferList.add(ByteBuffer.allocate(Constant.BUF_SIZE));
+		byte classifier;
 		Charset charset = Charset.forName("UTF-8");
 		String remoteAddress = channel.socket().getRemoteSocketAddress().toString();
 		try {
-			if(channel.read(buf) < 0 ){
+			for(int index = 0; ; index++){
+				int readSize = channel.read(bufferList.get(index));
+				if( readSize < 0 ){
+					return;
+				}
+				bufferList.get(index).flip();
+				//パケット先頭1バイトはClassifier
+				if(index==0){
+					classifier = bufferList.get(index).get();
+				}
+				System.out.println("[server]:" + remoteAddress + ":" + charset.decode(bufferList.get(index)).toString());
+				if(readSize == Constant.BUF_SIZE){
+					bufferList.add(ByteBuffer.allocate(Constant.BUF_SIZE));
+					continue;
+				}
+				////////////////////////
+				//ここにclassifierに基づいて、サーバーに何やらせるかの関数
+				//////////////////////////
 				return;
 			}
-			buf.flip();
-			System.out.println("[server]:" + remoteAddress + ":" + charset.decode(buf).toString());
-			buf.flip();
-//			channel.write(buf);
 		} catch (IOException e) {
 			System.err.println("TestServer:doRead()[error]");
 			e.printStackTrace();
