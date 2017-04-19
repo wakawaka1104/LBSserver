@@ -16,7 +16,7 @@ public enum Classifier {
 		return id;
 	}
 
-	public Classifier decodeType(byte a){
+	public static Classifier decodeType(byte a){
 		switch(a){
 		case (byte)1:
 			return Location;

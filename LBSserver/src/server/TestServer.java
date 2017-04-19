@@ -69,7 +69,7 @@ public class TestServer implements Runnable{
 	private void doRead(SocketChannel channel){
 		ArrayList<ByteBuffer> bufferList = new ArrayList<ByteBuffer>();
 		bufferList.add(ByteBuffer.allocate(Constant.BUF_SIZE));
-		byte classifier;
+		Classifier classifier = null;
 		Charset charset = Charset.forName("UTF-8");
 		String remoteAddress = channel.socket().getRemoteSocketAddress().toString();
 		try {
@@ -81,17 +81,33 @@ public class TestServer implements Runnable{
 				bufferList.get(index).flip();
 				//パケット先頭1バイトはClassifier
 				if(index==0){
-					classifier = bufferList.get(index).get();
+					classifier = Classifier.decodeType ( bufferList.get(index).get() );
 				}
 				System.out.println("[server]:" + remoteAddress + ":" + charset.decode(bufferList.get(index)).toString());
+				
 				if(readSize == Constant.BUF_SIZE){
 					bufferList.add(ByteBuffer.allocate(Constant.BUF_SIZE));
 					continue;
 				}
+				int bufSize = 0;
+				for(Iterator<ByteBuffer> it = bufferList.iterator(); it.hasNext();){
+					bufSize += it.next().position();
+				}
+				System.out.println("bufSize:"+bufSize+"\n");
 				////////////////////////
-				//ここにclassifierに基づいて、サーバーに何やらせるかの関数
+				//ここでclassifierに基づいて、サーバーに何やらせるか分岐
+				switch(classifier){
+				case Location:
+					readLocation();
+					return;
+				case Property:
+					readProperty();
+					return;
+				default:
+					System.out.println("定義されていないclassifierです\n");
+					return;
+				}
 				//////////////////////////
-				return;
 			}
 		} catch (IOException e) {
 			System.err.println("TestServer:doRead()[error]");
@@ -105,6 +121,16 @@ public class TestServer implements Runnable{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void readProperty() {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
+
+	private void readLocation() {
+		// TODO 自動生成されたメソッド・スタブ
+		
 	}
 
 }
