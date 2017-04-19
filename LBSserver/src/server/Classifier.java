@@ -1,6 +1,7 @@
 package server;
 
 public enum Classifier {
+	None((byte)0),
 	Location((byte)1),
 	Property((byte)2);
 
@@ -23,7 +24,7 @@ public enum Classifier {
 		case (byte)2:
 			return Property;
 		default:
-			return null;
+			return None;
 		}
 	}
 }
