@@ -35,12 +35,21 @@ public class SlaveList {
 		return nearest;
 	}
 
-	public SlaveList getInstance(){
+	public static SlaveList getInstance(){
 		return sl;
 	}
 
 	public void slaveAdd(Property a){
 		slaveList.add(a);
+		System.out.println(toString());
+	}
+
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		for(Iterator<Property> it = slaveList.iterator(); it.hasNext();){
+			sb.append(it.next().toString());
+		}
+		return sb.toString();
 	}
 
 

@@ -1,6 +1,11 @@
 package server;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -11,6 +16,11 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import asset.Classifier;
+import asset.IndoorLocation;
+import asset.Property;
+import asset.SlaveList;
 
 public class TestServer implements Runnable {
 
@@ -69,7 +79,7 @@ public class TestServer implements Runnable {
 	private void doRead(SocketChannel channel) {
 		ArrayList<ByteBuffer> bufferList = new ArrayList<ByteBuffer>();
 		bufferList.add(ByteBuffer.allocate(Constant.BUF_SIZE));
-		Classifier classifier = null;
+		byte header = 0x00;
 		Charset charset = Charset.forName("UTF-8");
 		String remoteAddress = channel.socket().getRemoteSocketAddress().toString();
 
@@ -84,7 +94,7 @@ public class TestServer implements Runnable {
 				bufferList.get(index).flip();
 				// パケット先頭1バイトはClassifier
 				if (index == 0) {
-					classifier = Classifier.decodeType(bufferList.get(index).get());
+					header = bufferList.get(index).get();
 				}
 
 
@@ -109,7 +119,7 @@ public class TestServer implements Runnable {
 			for (Iterator<ByteBuffer> it = bufferList.iterator(); it.hasNext();) {
 				bufSize += it.next().limit();
 			}
-			// -1はclassifier分のバイトを加味しない、という意味
+			// -1はheader分のバイトを加味しない、という意味
 			bufSize -= 1;
 			System.out.println("bufSize:" + bufSize + "\n");
 			ByteBuffer contents = ByteBuffer.allocate(bufSize);
@@ -124,20 +134,8 @@ public class TestServer implements Runnable {
 			contents.flip();
 			/////////////////////////////////////////////////////
 
-			////////////////////////
-			// ここでclassifierに基づいて、サーバーに何やらせるか分岐
-			switch (classifier) {
-			case Location:
-				readLocation();
-				return;
-			case Property:
-				readProperty();
-				return;
-			default:
-				System.out.println("定義されていないclassifierです\n");
-				return;
-			}
-			//////////////////////////
+			Classifier cl = (Classifier) deserialize(contents);
+			cl.readFunc(header);
 
 		} catch (
 
@@ -155,14 +153,68 @@ public class TestServer implements Runnable {
 		}
 	}
 
-	private void readProperty() {
-		// TODO 自動生成されたメソッド・スタブ
+	public Object deserialize(ByteBuffer buf){
+		try {
+			byte[] bufArray;
+			bufArray = buf.array();
+			ByteArrayInputStream bais = new ByteArrayInputStream(bufArray);
+			ObjectInputStream ois = new ObjectInputStream(bais);
+			Object tmp = ois.readObject();
+			bais.close();
+			ois.close();
+			return tmp;
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			return null;
+		}
 
 	}
 
-	private void readLocation() {
-		// TODO 自動生成されたメソッド・スタブ
 
+	//デバグ用main
+	public static void main(String[] args){
+		try {
+			Property prop = new Property(new IndoorLocation(1, 1, 2),InetAddress.getLocalHost(),10101,"test");
+			Property prop2 = new Property(new IndoorLocation(13, 11, 22),InetAddress.getLocalHost(),13101,"test2");
+			byte[] bufArray;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutput oo = new ObjectOutputStream(baos);
+			oo.writeObject(prop);
+			bufArray = baos.toByteArray();
+			ByteBuffer buf = ByteBuffer.allocate(bufArray.length);
+			buf.put(bufArray);
+
+			TestServer ts = new TestServer(InetAddress.getLocalHost(), 1010);
+			Classifier cl = (Classifier)ts.deserialize(buf);
+			cl.readFunc((byte)0);
+
+			oo.flush();
+			buf.clear();
+			baos.reset();
+
+			ObjectOutput oo2 = new ObjectOutputStream(baos);
+
+			byte[] bufArray2;
+			oo2.writeObject(prop2);
+			bufArray2 = baos.toByteArray();
+			ByteBuffer buf2 = ByteBuffer.allocate(bufArray2.length);
+			buf2.put(bufArray2);
+
+			Classifier cl2
+			 = (Classifier)ts.deserialize(buf2);
+			cl2.readFunc((byte)0);
+
+			System.out.println(SlaveList.getInstance().toString());
+
+			oo.flush();
+			oo.close();
+			oo2.flush();
+			oo2.close();
+		} catch (IOException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -1,8 +1,11 @@
 package asset;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 
-public class Property {
+public class Property implements Classifier,Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	//member
 	private IndoorLocation lo;
@@ -14,12 +17,29 @@ public class Property {
 	public Property(){
 
 	}
+
+	public Property(IndoorLocation lo,InetAddress ip,int port,String name){
+		this.lo = lo;
+		this.ip = ip;
+		this.port = port;
+		this.name = name;
+	}
+
 	public Property(Property prop){
 		this.lo = prop.getLocation();
 		this.ip = prop.getIp();
 		this.port = prop.getPort();
 		this.name = prop.getName();
 	}
+
+	//public func
+
+	@Override
+	public void readFunc(byte header) {
+		SlaveList.getInstance().slaveAdd(this);
+	}
+
+
 
 	//getter/setter
 	public IndoorLocation getLocation() {
@@ -55,5 +75,6 @@ public class Property {
 	public static void main(String[] args) {
 
 	}
+
 
 }

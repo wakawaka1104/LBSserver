@@ -1,8 +1,12 @@
 package asset;
 
-//物理位置を示すクラス
-public class IndoorLocation {
+import java.io.Serializable;
 
+//物理位置を示すクラス
+public class IndoorLocation implements Classifier,Serializable{
+
+
+	private static final long serialVersionUID = 2L;
 	//member
 	private double x;
 	private double y;
@@ -18,6 +22,14 @@ public class IndoorLocation {
 	//public func
 	public double dist(IndoorLocation a){
 		return Math.sqrt( Math.pow( (x-a.getX()) ,2) + Math.pow( (y-a.getY()) ,2) + Math.pow( (z-a.getZ()) ,2) );
+	}
+
+
+
+	@Override
+	public void readFunc(byte header) {
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 
 	public double getX() {
@@ -40,7 +52,7 @@ public class IndoorLocation {
 	}
 
 	public String toString(){
-		return "x:[" + x + "],y:[" + y + "],z:[" + z + "]";
+		return "x:[" + x + "],y:[" + y + "],z:[" + z + "]\n";
 	}
 
 }
