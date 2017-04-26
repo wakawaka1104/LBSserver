@@ -27,6 +27,9 @@ public class TestServer implements Runnable {
 	private int port;
 	private Selector selector;
 
+	private static byte[] sendData;
+	private static boolean sendFlag = false;
+
 	public TestServer(InetAddress addr, int port) {
 		this.port = port;
 	}
@@ -53,6 +56,8 @@ public class TestServer implements Runnable {
 						doAccept((ServerSocketChannel) key.channel());
 					} else if (key.isReadable()) {
 						doRead((SocketChannel) key.channel());
+					} else if (key.isWritable() && sendFlag){
+						doWrite((SocketChannel) key.channel());
 					}
 				}
 			}
@@ -69,7 +74,7 @@ public class TestServer implements Runnable {
 			String remoteAddress = channel.socket().getRemoteSocketAddress().toString();
 			System.out.println("[server]:" + remoteAddress + ":[connect]");
 			channel.configureBlocking(false);
-			channel.register(selector, SelectionKey.OP_READ);
+			channel.register(selector, SelectionKey.OP_READ|SelectionKey.OP_WRITE);
 		} catch (IOException e) {
 			System.err.println("TestServer:doAccept()[error]");
 			e.printStackTrace();
@@ -151,6 +156,44 @@ public class TestServer implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void doWrite(SocketChannel channel){
+		ByteBuffer writeBuffer = ByteBuffer.allocate(sendData.length);
+		writeBuffer.put(sendData);
+		if(writeBuffer.hasRemaining()){
+			try {
+				channel.write(writeBuffer);
+			} catch (IOException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}finally{
+				writeBuffer.clear();
+				sendFlag = false;
+			}
+
+		}
+	}
+
+	public static void doSend(byte[] data){
+		sendData = data;
+		sendFlag = true;
+	}
+
+	public static byte[] serialize(Classifier cl) {
+		try {
+			byte[] tmp;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutput oo = new ObjectOutputStream(baos);
+			oo.writeObject(cl);
+			tmp = baos.toByteArray();
+			return tmp;
+		} catch (IOException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	public Object deserialize(ByteBuffer buf){

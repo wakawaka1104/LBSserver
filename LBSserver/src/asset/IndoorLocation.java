@@ -2,6 +2,8 @@ package asset;
 
 import java.io.Serializable;
 
+import server.TestServer;
+
 //物理位置を示すクラス
 public class IndoorLocation implements Classifier,Serializable{
 
@@ -28,8 +30,9 @@ public class IndoorLocation implements Classifier,Serializable{
 
 	@Override
 	public void readFunc(byte header) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		Property prop = SlaveList.slaveSearch(this);
+		byte[] buf = TestServer.serialize(prop);
+		TestServer.doSend(buf);
 	}
 
 	public double getX() {

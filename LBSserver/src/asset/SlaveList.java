@@ -9,7 +9,7 @@ public class SlaveList {
 
 	//singleton pattern
 	private static SlaveList sl = new SlaveList();
-	private ArrayList<Property> slaveList = new ArrayList<Property>();
+	private static ArrayList<Property> slaveList = new ArrayList<Property>();
 
 	//constructor
 	private SlaveList(){
@@ -19,7 +19,7 @@ public class SlaveList {
 	//IndoorLocationに最も近いSlaveを検索
 	//返り値は相当するSlaveのProperty
 	//存在しないときはnullをreturn
-	public Property slaveSearch(IndoorLocation locate){
+	public static Property slaveSearch(IndoorLocation locate){
 		Property nearest = null;
 		//遠すぎる場合は見ない
 		double distMin = Constant.THRETHOLD;
