@@ -32,7 +32,7 @@ public class IndoorLocation implements Classifier,Serializable{
 	public void readFunc(byte header) {
 		Property prop = SlaveList.slaveSearch(this);
 		byte[] buf = TestServer.serialize(prop);
-		TestServer.doSend(buf);
+		//TestServer.asyncSend(buf);
 	}
 
 	public double getX() {

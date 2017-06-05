@@ -57,7 +57,7 @@ public class TestServer implements Runnable {
 					} else if (key.isReadable()) {
 						doRead((SocketChannel) key.channel());
 					} else if (key.isWritable() && sendFlag){
-						doWrite((SocketChannel) key.channel());
+						_asyncSend((SocketChannel) key.channel());
 					}
 				}
 			}
@@ -158,9 +158,10 @@ public class TestServer implements Runnable {
 		}
 	}
 
-	private void doWrite(SocketChannel channel){
+	private void _asyncSend(SocketChannel channel){
 		ByteBuffer writeBuffer = ByteBuffer.allocate(sendData.length);
 		writeBuffer.put(sendData);
+		writeBuffer.flip();
 		if(writeBuffer.hasRemaining()){
 			try {
 				channel.write(writeBuffer);
@@ -175,7 +176,7 @@ public class TestServer implements Runnable {
 		}
 	}
 
-	public static void doSend(byte[] data){
+	public void asyncSend(byte[] data){
 		sendData = data;
 		sendFlag = true;
 	}
@@ -212,6 +213,15 @@ public class TestServer implements Runnable {
 			return null;
 		}
 
+	}
+	
+	public static byte[] addHeader(byte[] data) {
+		byte[] tmp = new byte[data.length + 1];
+		tmp[0] = (byte) 0;
+		for (int i = 0; i < data.length; i++) {
+			tmp[i + 1] = data[i];
+		}
+		return tmp;
 	}
 
 

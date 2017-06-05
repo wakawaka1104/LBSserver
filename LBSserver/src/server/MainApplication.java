@@ -12,6 +12,7 @@ public class MainApplication {
 			TestServer ts = new TestServer(addr, 11111);
 			Thread serverThread = new Thread(ts);
 			serverThread.start();
+
 			
 		} catch (UnknownHostException e1) {
 			System.err.println("aaa");
