@@ -22,7 +22,7 @@ import asset.IndoorLocation;
 import asset.Property;
 import asset.SlaveList;
 
-public class TestServer implements Runnable {
+public class TestServer extends SocketComm implements Runnable {
 
 	private int port;
 	private Selector selector;
@@ -140,7 +140,7 @@ public class TestServer implements Runnable {
 			/////////////////////////////////////////////////////
 
 			Classifier cl = (Classifier) deserialize(contents);
-			cl.readFunc(header);
+			cl.readFunc(header,this);
 
 		} catch (
 
@@ -214,7 +214,7 @@ public class TestServer implements Runnable {
 		}
 
 	}
-	
+
 	public static byte[] addHeader(byte[] data) {
 		byte[] tmp = new byte[data.length + 1];
 		tmp[0] = (byte) 0;
@@ -240,7 +240,7 @@ public class TestServer implements Runnable {
 
 			TestServer ts = new TestServer(InetAddress.getLocalHost(), 1010);
 			Classifier cl = (Classifier)ts.deserialize(buf);
-			cl.readFunc((byte)0);
+//			cl.readFunc((byte)0);
 
 			oo.flush();
 			buf.clear();
@@ -256,7 +256,7 @@ public class TestServer implements Runnable {
 
 			Classifier cl2
 			 = (Classifier)ts.deserialize(buf2);
-			cl2.readFunc((byte)0);
+//			cl2.readFunc((byte)0);
 
 			System.out.println(SlaveList.getInstance().toString());
 

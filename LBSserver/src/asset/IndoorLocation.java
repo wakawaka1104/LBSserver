@@ -2,6 +2,7 @@ package asset;
 
 import java.io.Serializable;
 
+import server.SocketComm;
 import server.TestServer;
 
 //物理位置を示すクラス
@@ -29,10 +30,13 @@ public class IndoorLocation implements Classifier,Serializable{
 
 
 	@Override
-	public void readFunc(byte header) {
+	public void readFunc(byte header, SocketComm sc) {
 		Property prop = SlaveList.slaveSearch(this);
-		byte[] buf = TestServer.serialize(prop);
-		//TestServer.asyncSend(buf);
+		//機器が存在すれば対象機器のPropertyをserializeしてお返し
+		if(prop != null){
+			byte[] buf = TestServer.serialize(prop);
+			//TestServer.asyncSend(buf);
+		}
 	}
 
 	public double getX() {

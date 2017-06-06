@@ -3,6 +3,8 @@ package asset;
 import java.io.Serializable;
 import java.net.InetAddress;
 
+import server.SocketComm;
+
 public class Property implements Classifier,Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -35,7 +37,7 @@ public class Property implements Classifier,Serializable{
 	//public func
 
 	@Override
-	public void readFunc(byte header) {
+	public void readFunc(byte header, SocketComm sc) {
 		SlaveList.getInstance().slaveAdd(this);
 		System.out.println(SlaveList.getInstance().toString());
 	}

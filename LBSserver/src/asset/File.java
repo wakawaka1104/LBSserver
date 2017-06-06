@@ -4,13 +4,15 @@ import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
+import server.SocketComm;
+
 public class File implements Serializable, Classifier {
-	
+
 	private ImageIcon ii;
 	private static final long serialVersionUID = 3L;
 
 	@Override
-	public void readFunc(byte header) {
+	public void readFunc(byte header, SocketComm sc) {
 
 	}
 
