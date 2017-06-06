@@ -87,6 +87,7 @@ public class TestServer extends SocketComm implements Runnable {
 		byte header = 0x00;
 		Charset charset = Charset.forName("UTF-8");
 		String remoteAddress = channel.socket().getRemoteSocketAddress().toString();
+		SChannel = channel;
 
 		int bufSize = 0;
 

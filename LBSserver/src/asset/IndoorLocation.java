@@ -34,8 +34,10 @@ public class IndoorLocation implements Classifier,Serializable{
 		Property prop = SlaveList.slaveSearch(this);
 		//機器が存在すれば対象機器のPropertyをserializeしてお返し
 		if(prop != null){
-			byte[] buf = TestServer.serialize(prop);
-			//TestServer.asyncSend(buf);
+			sc.asyncSend(TestServer.addHeader(TestServer.serialize(prop)));
+			sc.asyncSend(TestServer.addHeader(TestServer.serialize(new Message("Property Send"))));
+		}else{
+			sc.asyncSend(TestServer.addHeader(TestServer.serialize(new Message("devices not found"))));
 		}
 	}
 
