@@ -1,8 +1,10 @@
 package asset;
 
+import java.io.Serializable;
+
 import server.SocketComm;
 
-public class Message implements Classifier {
+public class Message implements Serializable, Classifier {
 
 	private String message = "";
 
