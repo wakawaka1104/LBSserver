@@ -10,10 +10,17 @@ public class Property implements Classifier,Serializable{
 	private static final long serialVersionUID = 1L;
 
 	//member
-	private IndoorLocation lo;
+	private IndoorLocation location;
 	private InetAddress ip;
 	private int port;
 	private String name;
+
+	//public func
+	@Override
+	public void readFunc(byte header, SocketComm sc) {
+		SlaveList.getInstance().slaveAdd(this);
+		System.out.println(SlaveList.getInstance().toString());
+	}
 
 	//constructor
 	public Property(){
@@ -21,35 +28,25 @@ public class Property implements Classifier,Serializable{
 	}
 
 	public Property(IndoorLocation lo,InetAddress ip,int port,String name){
-		this.lo = lo;
+		this.location = lo;
 		this.ip = ip;
 		this.port = port;
 		this.name = name;
 	}
 
 	public Property(Property prop){
-		this.lo = prop.getLocation();
+		this.location = prop.getLocation();
 		this.ip = prop.getIp();
 		this.port = prop.getPort();
 		this.name = prop.getName();
 	}
 
-	//public func
-
-	@Override
-	public void readFunc(byte header, SocketComm sc) {
-		SlaveList.getInstance().slaveAdd(this);
-		System.out.println(SlaveList.getInstance().toString());
-	}
-
-
-
 	//getter/setter
 	public IndoorLocation getLocation() {
-		return lo;
+		return location;
 	}
 	public void setLocation(IndoorLocation lo) {
-		this.lo = lo;
+		this.location = lo;
 	}
 	public InetAddress getIp() {
 		return ip;
@@ -71,13 +68,6 @@ public class Property implements Classifier,Serializable{
 	}
 
 	public String toString(){
-		return "Location:"+lo.toString()+"\n"+"ip:"+ip.toString()+"\n"+"port:"+port+"\n"+"name:"+name+"\n" ;
+		return "Location:"+location.toString()+"\n"+"ip:"+ip.toString()+"\n"+"port:"+port+"\n"+"name:"+name+"\n" ;
 	}
-
-	//デバグ用main
-	public static void main(String[] args) {
-
-	}
-
-
 }

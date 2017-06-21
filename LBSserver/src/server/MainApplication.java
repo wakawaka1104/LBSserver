@@ -9,11 +9,11 @@ public class MainApplication {
 		InetAddress addr;
 		try {
 			addr = InetAddress.getLocalHost();
-			TestServer ts = new TestServer(addr, 11111);
+			SocketServer ts = new SocketServer(addr, 11111);
 			Thread serverThread = new Thread(ts);
 			serverThread.start();
 
-			
+
 		} catch (UnknownHostException e1) {
 			System.err.println("aaa");
 			e1.printStackTrace();
