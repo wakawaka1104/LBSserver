@@ -19,7 +19,6 @@ public class Property implements Classifier,Serializable{
 	@Override
 	public void readFunc(byte header, SocketComm sc) {
 		SlaveList.getInstance().slaveAdd(this);
-		System.out.println(SlaveList.getInstance().toString());
 	}
 
 	//constructor

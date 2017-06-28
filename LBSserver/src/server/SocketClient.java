@@ -17,6 +17,7 @@ public class SocketClient extends SocketComm implements Runnable{
 	private final static int BUF_SIZE = 1024;
 
 	private Selector selector;
+	private SocketChannel channel;
 	private byte[] sendData;
 	private boolean sendFlag = false;
 	private ByteBuffer writeBuffer = ByteBuffer.allocate(BUF_SIZE);
@@ -25,11 +26,10 @@ public class SocketClient extends SocketComm implements Runnable{
 
 	//************constructor
 	public SocketClient(InetAddress addr, int port) {
-		try { 
+		try {
 			System.out.println("SocketClient:channel open");
 			channel = SocketChannel.open(new InetSocketAddress(addr, port));
-			System.out.println("[client]:" + "[" + channel.socket().getRemoteSocketAddress().toString() + ":" + port
-					+ "]にバインドしました。");
+			System.out.println("[client]:" + "[" + channel.socket().getRemoteSocketAddress().toString()	+ "]にバインドしました。");
 		} catch (Exception e) {
 			System.err.println("SocketClient:constructor()[error]");
 			e.printStackTrace();
@@ -40,8 +40,7 @@ public class SocketClient extends SocketComm implements Runnable{
 		try {
 			System.out.println("SocketClient:channel open");
 			channel = SocketChannel.open(new InetSocketAddress(addr, port));
-			System.out.println("[client]:" + "[" + channel.socket().getRemoteSocketAddress().toString() + ":" + port
-					+ "]にバインドしました。");
+			System.out.println("[client]:" + "[" + channel.socket().getRemoteSocketAddress().toString()	+ "]にバインドしました。");
 		} catch (Exception e) {
 			System.err.println("SocketClient:constructor()[error]");
 			e.printStackTrace();
@@ -61,6 +60,7 @@ public class SocketClient extends SocketComm implements Runnable{
 			channel.configureBlocking(false);
 			selector = Selector.open();
 			channel.register(selector, SelectionKey.OP_WRITE|SelectionKey.OP_READ);
+			remoteAddress = channel.socket().getRemoteSocketAddress().toString();
 		} catch (Exception e) {
 			System.err.println("SocketClient:open()[error]");
 			e.printStackTrace();
@@ -74,7 +74,7 @@ public class SocketClient extends SocketComm implements Runnable{
 					SelectionKey key = (SelectionKey) it.next();
 					it.remove();
 					if (sendFlag && key.isWritable()) {
-						doSend(key);
+						doSend((SocketChannel)key.channel());
 					}
 					if (key.isReadable()) {
 						doRead((SocketChannel) key.channel());
@@ -89,17 +89,20 @@ public class SocketClient extends SocketComm implements Runnable{
 	}
 
 	public void asyncSend(byte[] data){
-		sendData = data;
-		sendFlag = true;
+		while(sendFlag == false){
+			sendData = data;
+			sendFlag = true;
+		}
 	}
 
 	public void asyncSend(Classifier ob, byte header){
-		sendData = Converter.serialize(ob,header);
-		sendFlag = true;
+		while(sendFlag == false){
+			sendData = Converter.serialize(ob,header);
+			sendFlag = true;
+		}
 	}
-
 	// private function
-	synchronized private void doSend(SelectionKey key) {
+	synchronized private void doSend(SocketChannel channel) {
 		try {
 			//byte[]をwriteBufferに書き込み
 			writeBuffer.clear();
@@ -109,17 +112,16 @@ public class SocketClient extends SocketComm implements Runnable{
 			//send処理
 			channel.write(writeBuffer);
 			writeBuffer.clear();
-			return;
 		} catch (Exception e) {
-			System.err.println("SocketClient:_asyncSend()[error]");
+			System.err.println("SocketClient:doSend[error]");
 			e.printStackTrace();
-			return;
+			System.out.println("[server]:" + channel.socket().getRemoteSocketAddress().toString() + ":[disconnect]");
 		} finally {
 			sendFlag = false;
 		}
 	}
 
-	private void doRead(SocketChannel _channel) {
+	private void doRead(SocketChannel channel) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			while(true){
@@ -130,13 +132,18 @@ public class SocketClient extends SocketComm implements Runnable{
 			}
 			byte[] contents = baos.toByteArray();
 			byte header = contents[0];
-
 			Classifier cl = (Classifier) Converter.deserialize(contents);
 			cl.readFunc(header,this);
-
 		} catch (Exception e) {
 			System.err.println("SocketClient:doRead()[error]");
 			e.printStackTrace();
+		}finally {
+			try {
+				channel.close();
+			} catch (Exception _e) {
+				System.err.println("SocketClient:doRead():close()[error]");
+				_e.printStackTrace();
+			}
 		}
 	}
 }

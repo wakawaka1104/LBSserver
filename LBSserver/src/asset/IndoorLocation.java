@@ -33,7 +33,7 @@ public class IndoorLocation implements Classifier,Serializable{
 			sc.asyncSend(prop,(byte)0);
 			sc.asyncSend(new Message("Property Send"),(byte)0);
 		}else{
-			sc.asyncSend(new Message("devices not found"),(byte)0);
+			sc.asyncSend(new Message("devices not found"),(byte)0); 
 		}
 	}
 
