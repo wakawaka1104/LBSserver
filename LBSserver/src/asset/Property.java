@@ -6,36 +6,26 @@ import server.SocketComm;
 
 public class Property implements Classifier,Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	//member
 	private IndoorLocation location;
-	private String ip;
-	private int port;
 	private String name;
-
-	//public func
 	@Override
 	public void readFunc(byte header, SocketComm sc) {
-		SlaveList.getInstance().slaveAdd(this);
 	}
 
 	//constructor
 	public Property(){
-
 	}
 
-	public Property(IndoorLocation lo, String ip,int port,String name){
+	public Property(IndoorLocation lo,String name){
 		this.location = lo;
-		this.ip = ip;
-		this.port = port;
 		this.name = name;
 	}
 
 	public Property(Property prop){
 		this.location = prop.getLocation();
-		this.ip = prop.getIp();
-		this.port = prop.getPort();
 		this.name = prop.getName();
 	}
 
@@ -46,26 +36,15 @@ public class Property implements Classifier,Serializable{
 	public void setLocation(IndoorLocation lo) {
 		this.location = lo;
 	}
-	public String getIp() {
-		return ip;
-	}
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-	public int getPort() {
-		return port;
-	}
-	public void setPort(int port) {
-		this.port = port;
-	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String toString(){
-		return "Location:"+location.toString()+"\n"+"ip:"+ip.toString()+"\n"+"port:"+port+"\n"+"name:"+name+"\n" ;
+		return "Location:"+location.toString()+"\n"+"name:"+name+"\n" ;
 	}
+
+
 }
