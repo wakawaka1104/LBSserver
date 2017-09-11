@@ -1,6 +1,7 @@
 package asset;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import server.SocketComm;
 
@@ -11,6 +12,10 @@ public class Property implements Classifier,Serializable{
 	//member
 	private IndoorLocation location;
 	private String name;
+	private ArrayList<String> function;
+	private String selection ="";
+
+
 	@Override
 	public void readFunc(byte header, SocketComm sc) {
 	}
@@ -27,6 +32,22 @@ public class Property implements Classifier,Serializable{
 	public Property(Property prop){
 		this.location = prop.getLocation();
 		this.name = prop.getName();
+	}
+
+	public ArrayList<String> getFunction() {
+		return function;
+	}
+
+	public void setFunction(ArrayList<String> function) {
+		this.function = function;
+	}
+
+	public String getSelection() {
+		return selection;
+	}
+
+	public void setSelection(String selection) {
+		this.selection = selection;
 	}
 
 	//getter/setter
