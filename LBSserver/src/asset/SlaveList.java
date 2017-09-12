@@ -1,9 +1,16 @@
 package asset;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class SlaveList {
+public class SlaveList{
 
 	//singleton pattern
 	private static SlaveList sl = new SlaveList();
@@ -24,7 +31,7 @@ public class SlaveList {
 		for(Iterator<Property> it = slaveList.iterator(); it.hasNext();){
 			Property tmp = it.next();
 			double dist = tmp.getLocation().dist(locate);
-			if(distMin > dist ){
+			if (distMin > dist ){
 				//最小値を更新したとき
 				nearest = tmp;
 				distMin = dist;
@@ -35,6 +42,29 @@ public class SlaveList {
 
 	public static SlaveList getInstance(){
 		return sl;
+	}
+
+	public static void loadList(){
+		try {
+			XMLDecoder d = new XMLDecoder(new BufferedInputStream(new FileInputStream("SlaveList.xml")));
+			slaveList = (ArrayList<Property>)d.readObject();
+			d.close();
+		} catch (FileNotFoundException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void writeList(){
+		try {
+			XMLEncoder e = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("SlaveList.xml")));
+			e.writeObject(slaveList);
+			e.close();
+		} catch (FileNotFoundException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 
 	public void slaveAdd(Property a){
