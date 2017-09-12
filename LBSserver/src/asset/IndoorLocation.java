@@ -14,6 +14,9 @@ public class IndoorLocation implements Classifier,Serializable{
 	private double z;
 
 	//constructor
+	public IndoorLocation(){
+
+	}
 	public IndoorLocation(double x,double y, double z){
 		this.x = x;
 		this.y = y;

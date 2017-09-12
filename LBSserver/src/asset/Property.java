@@ -18,6 +18,7 @@ public class Property implements Classifier,Serializable{
 
 	@Override
 	public void readFunc(byte header, SocketComm sc) {
+		SlaveList.getInstance().slaveAdd(this);
 	}
 
 	//constructor
@@ -34,28 +35,13 @@ public class Property implements Classifier,Serializable{
 		this.name = prop.getName();
 	}
 
-	public ArrayList<String> getFunction() {
-		return function;
-	}
-
-	public void setFunction(ArrayList<String> function) {
-		this.function = function;
-	}
-
-	public String getSelection() {
-		return selection;
-	}
-
-	public void setSelection(String selection) {
-		this.selection = selection;
-	}
 
 	//getter/setter
 	public IndoorLocation getLocation() {
 		return location;
 	}
-	public void setLocation(IndoorLocation lo) {
-		this.location = lo;
+	public void setLocation(IndoorLocation location) {
+		this.location = location;
 	}
 	public String getName() {
 		return name;
@@ -63,6 +49,20 @@ public class Property implements Classifier,Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	public ArrayList<String> getFunction() {
+		return function;
+	}
+
+	public void setFunction(ArrayList<String> function) {
+		this.function = function;
+	}
+	public String getSelection() {
+		return selection;
+	}
+	public void setSelection(String selection) {
+		this.selection = selection;
+	}
+
 	public String toString(){
 		return "Location:"+location.toString()+"\n"+"name:"+name+"\n" ;
 	}

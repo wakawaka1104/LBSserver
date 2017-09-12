@@ -4,6 +4,7 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -46,8 +47,8 @@ public class SlaveList{
 
 	public static void loadList(){
 		try {
-			XMLDecoder d = new XMLDecoder(new BufferedInputStream(new FileInputStream("SlaveList.xml")));
-			slaveList = (ArrayList<Property>)d.readObject();
+			XMLDecoder d = new XMLDecoder(new BufferedInputStream(new FileInputStream("config" + File.separator + "SlaveList.xml")));
+			slaveList = ((ArrayList<Property>)d.readObject());
 			d.close();
 		} catch (FileNotFoundException e) {
 			// TODO 自動生成された catch ブロック
@@ -58,7 +59,7 @@ public class SlaveList{
 
 	public static void writeList(){
 		try {
-			XMLEncoder e = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("SlaveList.xml")));
+			XMLEncoder e = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("config" + File.separator + "SlaveList.xml")));
 			e.writeObject(slaveList);
 			e.close();
 		} catch (FileNotFoundException e) {
@@ -78,5 +79,19 @@ public class SlaveList{
 			sb.append(it.next().toString());
 		}
 		return sb.toString();
+	}
+
+
+	//test method
+
+	public static void main(String[] args) throws FileNotFoundException {
+//		//write
+//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(10,10,10),"test1"));
+//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(-50,50,50),"test2"));
+//		writeList();
+
+		//read
+		loadList();
+		System.out.println(SlaveList.getInstance().toString());
 	}
 }
