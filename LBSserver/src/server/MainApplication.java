@@ -1,10 +1,14 @@
 package server;
 
+import asset.SlaveList;
+import tcpip.SocketServer;
+
 public class MainApplication {
 
 	public static void main(String[] args) {
 		String addr;
 		try {
+			SlaveList.loadList();
 			addr = "localhost";
 			SocketServer ts = new SocketServer(addr, 11111);
 			Thread serverThread = new Thread(ts);

@@ -1,6 +1,6 @@
 package asset;
 
-import server.SocketComm;
+import tcpip.SocketComm;
 
 public interface Classifier {
 		//受信した時の挙動を書く関数

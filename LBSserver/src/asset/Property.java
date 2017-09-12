@@ -3,7 +3,7 @@ package asset;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import server.SocketComm;
+import tcpip.SocketComm;
 
 public class Property implements Classifier,Serializable{
 

@@ -8,10 +8,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class SlaveList{
+import tcpip.SocketComm;
+
+public class SlaveList implements Classifier,Serializable{
 
 	//singleton pattern
 	private static SlaveList sl = new SlaveList();
@@ -19,6 +22,12 @@ public class SlaveList{
 
 	//constructor
 	private SlaveList(){
+	}
+
+
+	@Override
+	public void readFunc(byte header, SocketComm sc) {
+
 	}
 
 	//public func
@@ -94,4 +103,5 @@ public class SlaveList{
 		loadList();
 		System.out.println(SlaveList.getInstance().toString());
 	}
+
 }

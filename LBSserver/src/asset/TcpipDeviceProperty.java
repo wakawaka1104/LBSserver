@@ -1,7 +1,7 @@
 package asset;
 
-import server.SocketClient;
-import server.SocketComm;
+import tcpip.SocketClient;
+import tcpip.SocketComm;
 
 public class TcpipDeviceProperty extends Property {
 	//member

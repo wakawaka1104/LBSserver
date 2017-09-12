@@ -2,7 +2,7 @@ package asset;
 
 import java.io.Serializable;
 
-import server.SocketComm;
+import tcpip.SocketComm;
 
 //物理位置を示すクラス
 public class IndoorLocation implements Classifier,Serializable{
