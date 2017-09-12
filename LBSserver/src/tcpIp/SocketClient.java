@@ -1,32 +1,35 @@
-package tcpip;
+package tcpIp;
 
 import java.io.ByteArrayOutputStream;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
 import asset.Classifier;
 
-public class SocketServer extends SocketComm implements Runnable{
+public class SocketClient extends SocketComm implements Runnable{
 
 	//**********private member
 	private final static int BUF_SIZE = 1024;
 
+
 	private String addr;
 	private int port;
+
 	private Selector selector;
+	private SocketChannel channel;
 	private byte[] sendData;
 	private boolean sendFlag = false;
 	private ByteBuffer writeBuffer = ByteBuffer.allocate(BUF_SIZE);
 
-	//***************************
+	//**************************
 
 	//************constructor
-	public SocketServer(String addr, int port) {
+
+	public SocketClient(String addr, int port) {
 		this.addr = addr;
 		this.port = port;
 	}
@@ -38,17 +41,20 @@ public class SocketServer extends SocketComm implements Runnable{
 	//それ以外はread待機
 	public void run() {
 		//channel open処理
-		ServerSocketChannel serverChannel = null;
-		try{
-		selector = Selector.open();
-		serverChannel = ServerSocketChannel.open();
-		serverChannel.configureBlocking(false);
-		serverChannel.socket().bind(new InetSocketAddress(port));
-		serverChannel.register(selector, SelectionKey.OP_ACCEPT);
-		System.out.println("SocketServerが起動しました(port=" + serverChannel.socket().getLocalPort() + ":[connect]");
-		} catch(Exception e){
-			System.err.println("SocketServer:run()[error]");
+		try {
+			System.out.println("SocketClient:channel open");
+			channel = SocketChannel.open(new InetSocketAddress(addr, port));
+			System.out.println("[client]:" + "[" + channel.socket().getRemoteSocketAddress().toString()	+ "]にバインドしました。");
+			channel.socket().setReuseAddress(true);
+			// non blocking mode
+			channel.configureBlocking(false);
+			selector = Selector.open();
+			channel.register(selector, SelectionKey.OP_WRITE|SelectionKey.OP_READ);
+			remoteAddress = channel.socket().getRemoteSocketAddress().toString();
+		} catch (Exception e) {
+			System.err.println("SocketClient:open()[error]");
 			e.printStackTrace();
+			return;
 		}
 
 		//送受信待機ループ
@@ -57,19 +63,16 @@ public class SocketServer extends SocketComm implements Runnable{
 				for (Iterator<SelectionKey> it = selector.selectedKeys().iterator(); it.hasNext();) {
 					SelectionKey key = (SelectionKey) it.next();
 					it.remove();
-					if (key.isAcceptable()) {
-						doAccept((ServerSocketChannel) key.channel());
-					}else
 					if (sendFlag && key.isWritable()) {
 						doSend((SocketChannel)key.channel());
-					}else
+					}
 					if (key.isReadable()) {
 						doRead((SocketChannel) key.channel());
 					}
 				}
 			}
 		} catch (Exception e) {
-			System.err.println("SocketServer:run()[error]");
+			System.err.println("SocketClient:run()[error]");
 			e.printStackTrace();
 			return;
 		}
@@ -88,21 +91,7 @@ public class SocketServer extends SocketComm implements Runnable{
 			sendFlag = true;
 		}
 	}
-
 	// private function
-	private void doAccept(ServerSocketChannel serverChannel) {
-		try {
-			SocketChannel channel = serverChannel.accept();
-			String remoteAddress = channel.socket().getRemoteSocketAddress().toString();
-			System.out.println("[server]:" + remoteAddress + ":[connect]");
-			channel.configureBlocking(false);
-			channel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
-		} catch (Exception e) {
-			System.err.println("SocketServer:doAccept()[error]");
-			e.printStackTrace();
-		}
-	}
-
 	synchronized private void doSend(SocketChannel channel) {
 		try {
 			//byte[]をwriteBufferに書き込み
@@ -113,10 +102,10 @@ public class SocketServer extends SocketComm implements Runnable{
 			//send処理
 			channel.write(writeBuffer);
 			writeBuffer.clear();
-			return;
 		} catch (Exception e) {
-			System.err.println("SocketServer:doSend()[error]");
+			System.err.println("SocketClient:doSend[error]");
 			e.printStackTrace();
+			System.out.println("[server]:" + channel.socket().getRemoteSocketAddress().toString() + ":[disconnect]");
 		} finally {
 			sendFlag = false;
 		}
@@ -138,11 +127,10 @@ public class SocketServer extends SocketComm implements Runnable{
 		} catch (Exception e) {
 			System.err.println("SocketClient:doRead()[error]");
 			e.printStackTrace();
-			System.out.println("[client]:" + channel.socket().getRemoteSocketAddress().toString() + ":[disconnect]");
 			try {
 				channel.close();
 			} catch (Exception _e) {
-				System.err.println("SocketServer:doRead():close()[error]");
+				System.err.println("SocketClient:doRead():close()[error]");
 				_e.printStackTrace();
 			}
 		}

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
-import tcpip.SocketComm;
+import tcpIp.SocketComm;
 
 public class File implements Serializable, Classifier {
 

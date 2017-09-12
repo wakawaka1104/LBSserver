@@ -2,7 +2,7 @@ package asset;
 
 import java.io.Serializable;
 
-import tcpip.SocketComm;
+import tcpIp.SocketComm;
 
 public class Message implements Serializable, Classifier {
 

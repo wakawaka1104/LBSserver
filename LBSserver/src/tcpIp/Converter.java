@@ -1,4 +1,4 @@
-package tcpip;
+package tcpIp;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import tcpip.SocketComm;
+import tcpIp.SocketComm;
 
 public class SlaveList implements Classifier,Serializable{
 

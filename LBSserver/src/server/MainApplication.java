@@ -1,7 +1,7 @@
 package server;
 
 import asset.SlaveList;
-import tcpip.SocketServer;
+import tcpIp.SocketServer;
 
 public class MainApplication {
 

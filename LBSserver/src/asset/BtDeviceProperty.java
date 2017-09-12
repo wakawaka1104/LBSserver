@@ -7,7 +7,7 @@ import javax.bluetooth.DiscoveryAgent;
 import javax.bluetooth.LocalDevice;
 import javax.bluetooth.RemoteDevice;
 
-import tcpip.SocketComm;
+import tcpIp.SocketComm;
 
 public class BtDeviceProperty extends Property {
 
