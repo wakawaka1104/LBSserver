@@ -9,6 +9,7 @@ public class MainApplication {
 		String addr;
 		try {
 			SlaveList.loadList();
+			System.out.println(SlaveList.getInstance().toString());
 			addr = "localhost";
 			SocketServer ts = new SocketServer(addr, 11111);
 			Thread serverThread = new Thread(ts);

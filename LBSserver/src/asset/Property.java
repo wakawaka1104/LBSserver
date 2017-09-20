@@ -21,6 +21,10 @@ public class Property implements Classifier,Serializable{
 		SlaveList.getInstance().slaveAdd(this);
 	}
 
+	public Order makeOrder(){
+		return new Order(this);
+	}
+
 	//constructor
 	public Property(){
 	}
@@ -66,6 +70,8 @@ public class Property implements Classifier,Serializable{
 	public String toString(){
 		return "Location:"+location.toString()+"\n"+"name:"+name+"\n" ;
 	}
+
+
 
 
 }
