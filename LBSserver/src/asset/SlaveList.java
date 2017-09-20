@@ -96,8 +96,14 @@ public class SlaveList implements Classifier,Serializable{
 
 	public static void main(String[] args) throws FileNotFoundException {
 //		//write
-//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(10,10,10),"test1"));
-//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(-50,50,50),"test2"));
+//		ArrayList<String> func1 = new ArrayList<>();
+//		ArrayList<String> func2 = new ArrayList<>();
+//		func1.add("file receive");
+//		func2.add("cooperation");
+//		func2.add("get administration");
+//
+//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(10,10,10),"test1",func1));
+//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(-50,50,50),"test2",func2));
 //		writeList();
 
 		//read

@@ -2,6 +2,7 @@ package asset;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import tcpIp.SocketComm;
 
@@ -29,14 +30,17 @@ public class Property implements Classifier,Serializable{
 	public Property(){
 	}
 
-	public Property(IndoorLocation lo,String name){
+	public Property(IndoorLocation lo,String name, ArrayList<String> function){
 		this.location = lo;
 		this.name = name;
+		this.function = function;
 	}
 
 	public Property(Property prop){
 		this.location = prop.getLocation();
 		this.name = prop.getName();
+		this.function = prop.getFunction();
+		this.selection = prop.getSelection();
 	}
 
 
@@ -68,7 +72,13 @@ public class Property implements Classifier,Serializable{
 	}
 
 	public String toString(){
-		return "Location:"+location.toString()+"\n"+"name:"+name+"\n" ;
+		String tmp = "Location:"+location.toString()+"\n"+"name:"+name+"\n";
+		tmp += "Function:[";
+		for(Iterator<String> it = function.iterator(); it.hasNext();){
+			tmp += it.next() + ",";
+		}
+		tmp += "]\n";
+		return tmp;
 	}
 
 

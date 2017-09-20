@@ -3,6 +3,13 @@
  <object class="java.util.ArrayList">
   <void method="add">
    <object class="asset.Property">
+    <void property="function">
+     <object class="java.util.ArrayList">
+      <void method="add">
+       <string>file receive</string>
+      </void>
+     </object>
+    </void>
     <void property="location">
      <object class="asset.IndoorLocation">
       <void property="x">
@@ -23,6 +30,16 @@
   </void>
   <void method="add">
    <object class="asset.Property">
+    <void property="function">
+     <object class="java.util.ArrayList">
+      <void method="add">
+       <string>cooperation</string>
+      </void>
+      <void method="add">
+       <string>get administration</string>
+      </void>
+     </object>
+    </void>
     <void property="location">
      <object class="asset.IndoorLocation">
       <void property="x">

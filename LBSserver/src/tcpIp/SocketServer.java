@@ -10,7 +10,6 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
 import asset.Classifier;
-import asset.SlaveList;
 
 public class SocketServer extends SocketComm implements Runnable{
 
@@ -98,8 +97,6 @@ public class SocketServer extends SocketComm implements Runnable{
 			System.out.println("[server]:" + remoteAddress + ":[connect]");
 			channel.configureBlocking(false);
 			channel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
-
-			asyncSend(SlaveList.getInstance(),(byte)0);
 		} catch (Exception e) {
 			System.err.println("SocketServer:doAccept()[error]");
 			e.printStackTrace();
@@ -140,7 +137,7 @@ public class SocketServer extends SocketComm implements Runnable{
 			Classifier cl = (Classifier) Converter.deserialize(contents);
 			cl.readFunc(header,this);
 		} catch (Exception e) {
-			System.err.println("SocketClient:doRead()[error]");
+			System.err.println("SocketServer:doRead()[error]");
 			e.printStackTrace();
 			System.out.println("[client]:" + channel.socket().getRemoteSocketAddress().toString() + ":[disconnect]");
 			try {
