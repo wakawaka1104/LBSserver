@@ -7,6 +7,7 @@ import tcpIp.SocketComm;
 public class ByteFile implements Serializable, Classifier {
 
 	private byte[] file;
+	private String extension = "";
 	private static final long serialVersionUID = 3L;
 
 	public ByteFile(byte[] file){
@@ -25,6 +26,15 @@ public class ByteFile implements Serializable, Classifier {
 	public void setFile(byte[] file) {
 		this.file = file;
 	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
+
 
 
 
