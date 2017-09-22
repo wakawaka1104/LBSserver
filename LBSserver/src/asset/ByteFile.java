@@ -10,8 +10,9 @@ public class ByteFile implements Serializable, Classifier {
 	private String extension = "";
 	private static final long serialVersionUID = 3L;
 
-	public ByteFile(byte[] file){
+	public ByteFile(byte[] file, String extension){
 		this.file = file;
+		this.extension = extension;
 	}
 
 	@Override
