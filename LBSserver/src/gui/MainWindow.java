@@ -1,12 +1,34 @@
 package gui;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
-public class MainWindow {
+import asset.Order;
+import asset.Property;
+import asset.SlaveList;
+import tcpIp.SocketClient;
+import tcpIp.SocketServer;
 
-	private JFrame frame;
+public class MainWindow extends JFrame {
+
+	private static final int SERVER_PORT = 11111;
+
+	private static Property myProp = new Property();
+	private static int port;
+
+	private JPanel contentPane;
+	private JLabel stateLabel = new JLabel("none");
+	private final JButton funcTestButton = new JButton("func test");
+	private final Action funcBtnAction = new FuncBtnSwingAction();
+
 
 	/**
 	 * Launch the application.
@@ -15,8 +37,16 @@ public class MainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow window = new MainWindow();
-					window.frame.setVisible(true);
+
+					SlaveList.loadList();
+					System.out.println(SlaveList.getInstance().toString());
+					String addr = "localhost";
+					SocketServer ts = new SocketServer(addr, 11111);
+					Thread serverThread = new Thread(ts);
+					serverThread.start();
+
+					MainWindow frame = new MainWindow();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -25,19 +55,48 @@ public class MainWindow {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the frame.
 	 */
 	public MainWindow() {
-		initialize();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		stateLabel.setBounds(5, 5, 333, 231);
+
+
+		contentPane.add(stateLabel);
+		funcTestButton.setAction(funcBtnAction);
+		funcTestButton.setBounds(320, 5, 109, 41);
+		contentPane.add(funcTestButton);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+	private class FuncBtnSwingAction extends AbstractAction {
+		public FuncBtnSwingAction() {
+			putValue(NAME, "FuncBtnSwingAction");
+			putValue(SHORT_DESCRIPTION, "func test action");
+		}
+		public void actionPerformed(ActionEvent e) {
 
+//			System.out.println(Property.getInstance().getLocation().toString());
+
+			try {
+
+				SocketClient sc = new SocketClient("localhost", 22222);
+				Thread clientThread = new Thread(sc);
+				clientThread.start();
+
+				Thread.sleep(500);
+
+				sc.asyncSend(new Order("file send"),(byte)0);
+
+			} catch (Exception e1) {
+				System.err.println("aaa");
+				e1.printStackTrace();
+			}
+
+		}
+	}
 }
