@@ -21,7 +21,6 @@ public class SocketServer extends SocketComm implements Runnable{
 	private Selector selector;
 	private byte[] sendData;
 	private boolean sendFlag = false;
-	private ByteBuffer writeBuffer = ByteBuffer.allocate(BUF_SIZE);
 
 	//***************************
 
@@ -105,6 +104,9 @@ public class SocketServer extends SocketComm implements Runnable{
 
 	synchronized private void doSend(SocketChannel channel) {
 		try {
+
+			ByteBuffer writeBuffer = ByteBuffer.allocate(sendData.length);
+
 			//byte[]をwriteBufferに書き込み
 			writeBuffer.clear();
 			writeBuffer.put(sendData);
@@ -113,7 +115,6 @@ public class SocketServer extends SocketComm implements Runnable{
 			//send処理
 			channel.write(writeBuffer);
 			writeBuffer.clear();
-			System.out.println("send data");
 			return;
 		} catch (Exception e) {
 			System.err.println("SocketServer:doSend()[error]");
@@ -134,10 +135,11 @@ public class SocketServer extends SocketComm implements Runnable{
 			}
 			byte[] contents = baos.toByteArray();
 			byte header = contents[0];
+			remoteAddress = channel.socket().getRemoteSocketAddress().toString();
 			Classifier cl = (Classifier) Converter.deserialize(contents);
 			cl.readFunc(header,this);
 		} catch (Exception e) {
-			System.err.println("SocketServer:doRead()[error]");
+			System.err.println("SocketClient:doRead()[error]");
 			e.printStackTrace();
 			System.out.println("[client]:" + channel.socket().getRemoteSocketAddress().toString() + ":[disconnect]");
 			try {
