@@ -24,4 +24,8 @@ public class Order implements Serializable, Classifier {
 	public void setMessage(String order){
 		this.order = order;
 	}
+	@Override
+	public String getClassName() {
+		return "Order";
+	}
 }

@@ -36,6 +36,11 @@ public class ByteFile implements Serializable, Classifier {
 		this.extension = extension;
 	}
 
+	@Override
+	public String getClassName() {
+		return "ByteFile";
+	}
+
 
 
 

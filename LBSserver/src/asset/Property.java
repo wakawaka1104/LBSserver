@@ -89,6 +89,11 @@ public class Property implements Classifier,Serializable{
 		return tmp;
 	}
 
+	@Override
+	public String getClassName() {
+		return "Property";
+	}
+
 
 
 

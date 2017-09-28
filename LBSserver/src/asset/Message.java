@@ -28,4 +28,9 @@ public class Message implements Serializable, Classifier {
 		this.message = message;
 	}
 
+	@Override
+	public String getClassName() {
+		return "Message";
+	}
+
 }

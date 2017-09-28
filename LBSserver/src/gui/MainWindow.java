@@ -23,11 +23,13 @@ public class MainWindow extends JFrame {
 
 	private static Property myProp = new Property();
 	private static int port;
+	private SocketClient sc;
 
 	private JPanel contentPane;
 	private JLabel stateLabel = new JLabel("none");
 	private final JButton funcTestButton = new JButton("func test");
 	private final Action funcBtnAction = new FuncBtnSwingAction();
+	private final Action SendBtnAction = new SendSwingAction();
 
 
 	/**
@@ -71,6 +73,11 @@ public class MainWindow extends JFrame {
 		funcTestButton.setAction(funcBtnAction);
 		funcTestButton.setBounds(320, 5, 109, 41);
 		contentPane.add(funcTestButton);
+
+		JButton btnSend = new JButton("send");
+		btnSend.setAction(SendBtnAction);
+		btnSend.setBounds(331, 110, 91, 21);
+		contentPane.add(btnSend);
 	}
 
 	private class FuncBtnSwingAction extends AbstractAction {
@@ -84,19 +91,26 @@ public class MainWindow extends JFrame {
 
 			try {
 
-				SocketClient sc = new SocketClient("localhost", 22222);
+				sc = new SocketClient("localhost", 22222);
 				Thread clientThread = new Thread(sc);
 				clientThread.start();
 
 				Thread.sleep(500);
-
-				sc.asyncSend(new Order("file send"),(byte)0);
 
 			} catch (Exception e1) {
 				System.err.println("aaa");
 				e1.printStackTrace();
 			}
 
+		}
+	}
+	private class SendSwingAction extends AbstractAction {
+		public SendSwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			sc.asyncSend(new Order("file send"),(byte)0);
 		}
 	}
 }

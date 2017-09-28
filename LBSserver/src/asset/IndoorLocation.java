@@ -62,5 +62,9 @@ public class IndoorLocation implements Classifier,Serializable{
 	public String toString(){
 		return "x:[" + x + "],y:[" + y + "],z:[" + z + "]";
 	}
+	@Override
+	public String getClassName() {
+		return "IndoorLocation";
+	}
 
 }
