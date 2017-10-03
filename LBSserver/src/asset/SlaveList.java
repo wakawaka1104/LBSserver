@@ -19,7 +19,7 @@ public class SlaveList implements Classifier,Serializable{
 	//singleton pattern
 	private static SlaveList sl = new SlaveList();
 
-	private ArrayList<Property> slaveList = new ArrayList<Property>();
+	private static ArrayList<Property> slaveList = new ArrayList<Property>();
 
 	//constructor
 	private SlaveList(){
@@ -91,6 +91,10 @@ public class SlaveList implements Classifier,Serializable{
 		return sb.toString();
 	}
 
+	public static ArrayList<Property> getList(){
+		return slaveList;
+	}
+
 
 	//test method
 
@@ -109,6 +113,7 @@ public class SlaveList implements Classifier,Serializable{
 		//read
 		loadList();
 		System.out.println(SlaveList.getInstance().toString());
+
 	}
 
 
