@@ -19,7 +19,7 @@ public class SlaveList implements Classifier,Serializable{
 	//singleton pattern
 	private static SlaveList sl = new SlaveList();
 
-	private static ArrayList<Property> slaveList = new ArrayList<Property>();
+	private ArrayList<Property> slaveList = new ArrayList<Property>();
 
 	//constructor
 	private SlaveList(){
@@ -91,7 +91,7 @@ public class SlaveList implements Classifier,Serializable{
 		return sb.toString();
 	}
 
-	public static ArrayList<Property> getList(){
+	public ArrayList<Property> getList(){
 		return slaveList;
 	}
 
@@ -106,8 +106,8 @@ public class SlaveList implements Classifier,Serializable{
 //		func2.add("cooperation");
 //		func2.add("get administration");
 //
-//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(10,10,10),"test1",func1));
-//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(-50,50,50),"test2",func2));
+//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(5750,2500,1200),"test1",func1,1001));
+//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(5750,3200,1200),"test2",func2,1002));
 //		writeList();
 
 		//read

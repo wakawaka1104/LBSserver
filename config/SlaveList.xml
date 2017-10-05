@@ -3,6 +3,9 @@
  <object class="java.util.ArrayList">
   <void method="add">
    <object class="asset.Property">
+    <void property="classify">
+     <int>1001</int>
+    </void>
     <void property="function">
      <object class="java.util.ArrayList">
       <void method="add">
@@ -13,13 +16,13 @@
     <void property="location">
      <object class="asset.IndoorLocation">
       <void property="x">
-       <double>10.0</double>
+       <double>5750.0</double>
       </void>
       <void property="y">
-       <double>10.0</double>
+       <double>2500.0</double>
       </void>
       <void property="z">
-       <double>10.0</double>
+       <double>1200.0</double>
       </void>
      </object>
     </void>
@@ -30,6 +33,9 @@
   </void>
   <void method="add">
    <object class="asset.Property">
+    <void property="classify">
+     <int>1002</int>
+    </void>
     <void property="function">
      <object class="java.util.ArrayList">
       <void method="add">
@@ -43,13 +49,13 @@
     <void property="location">
      <object class="asset.IndoorLocation">
       <void property="x">
-       <double>-50.0</double>
+       <double>5750.0</double>
       </void>
       <void property="y">
-       <double>50.0</double>
+       <double>3200.0</double>
       </void>
       <void property="z">
-       <double>50.0</double>
+       <double>1200.0</double>
       </void>
      </object>
     </void>
