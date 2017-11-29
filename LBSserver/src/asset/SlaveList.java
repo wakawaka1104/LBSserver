@@ -73,7 +73,6 @@ public class SlaveList implements Classifier,Serializable{
 			e.writeObject(SlaveList.getInstance().slaveList);
 			e.close();
 		} catch (FileNotFoundException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 	}

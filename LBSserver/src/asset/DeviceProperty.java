@@ -1,12 +1,11 @@
 package asset;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import tcpIp.SocketComm;
 
-public class Property implements Classifier,Serializable{
+public class DeviceProperty extends Property {
 
 	private static final long serialVersionUID = 2L;
 
@@ -34,17 +33,17 @@ public class Property implements Classifier,Serializable{
 	}
 
 	//constructor
-	public Property(){
+	public DeviceProperty(){
 	}
 
-	public Property(IndoorLocation lo,String name, ArrayList<String> function,int classify){
+	public DeviceProperty(IndoorLocation lo,String name, ArrayList<String> function,int classify){
 		this.location = lo;
 		this.name = name;
 		this.function = function;
 		this.classify = classify;
 	}
 
-	public Property(Property prop){
+	public DeviceProperty(DeviceProperty prop){
 		this.location = prop.getLocation();
 		this.name = prop.getName();
 		this.function = prop.getFunction();
@@ -99,8 +98,5 @@ public class Property implements Classifier,Serializable{
 	public String getClassName() {
 		return "Property";
 	}
-
-
-
 
 }
