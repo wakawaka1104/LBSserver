@@ -96,7 +96,7 @@ public class DeviceProperty extends Property {
 
 	@Override
 	public String getClassName() {
-		return "Property";
+		return "DeviceProperty";
 	}
 
 }

@@ -16,14 +16,14 @@ public class ClientList{
 	//singleton pattern
 	private static ClientList instance = new ClientList();
 
-	private ArrayList<Property> clientList = new ArrayList<>();
+	private ArrayList<DeviceProperty> clientList = new ArrayList<>();
 
 
 	private ClientList(){
 
 	}
 
-	public void add(Property prop){
+	public void add(DeviceProperty prop){
 		clientList.add(prop);
 	}
 
@@ -46,8 +46,8 @@ public class ClientList{
 
 		IndoorLocation loc = new IndoorLocation(Double.parseDouble(posPacket[2]),Double.parseDouble(posPacket[3]),Double.parseDouble(posPacket[4]));
 
-		for(Iterator<Property> it = ClientList.getInstance().clientList.iterator();it.hasNext();){
-			Property tmp = it.next();
+		for(Iterator<DeviceProperty> it = ClientList.getInstance().clientList.iterator();it.hasNext();){
+			DeviceProperty tmp = it.next();
 			if(posPacket[1] == tmp.getName()){
 				//更新
 				tmp.setLocation(loc);
@@ -55,14 +55,14 @@ public class ClientList{
 			}
 		}
 		//同名なしならadd
-		ClientList.getInstance().add(new Property(loc,posPacket[1],new ArrayList<String>(),0));
+		ClientList.getInstance().add(new DeviceProperty(loc,posPacket[1],new ArrayList<String>(),0));
 
 	}
 
 	public static void loadList(){
 		try {
 			XMLDecoder d = new XMLDecoder(new BufferedInputStream(new FileInputStream("config" + File.separator + "ClientList.xml")));
-			ClientList.getInstance().clientList = ((ArrayList<Property>)d.readObject());
+			ClientList.getInstance().clientList = ((ArrayList<DeviceProperty>)d.readObject());
 			d.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -82,7 +82,7 @@ public class ClientList{
 
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		for(Iterator<Property> it = clientList.iterator(); it.hasNext();){
+		for(Iterator<DeviceProperty> it = clientList.iterator(); it.hasNext();){
 			sb.append(it.next().toString());
 		}
 		return sb.toString();

@@ -14,7 +14,7 @@ public class Order implements Serializable, Classifier {
 	public Order(String order){
 		this.order = order;
 	}
-	public Order(Property prop){
+	public Order(DeviceProperty prop){
 		this.order = prop.getSelection();
 	}
 

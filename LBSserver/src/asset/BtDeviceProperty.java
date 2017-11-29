@@ -10,7 +10,7 @@ import javax.bluetooth.RemoteDevice;
 
 import tcpIp.SocketComm;
 
-public class BtDeviceProperty extends Property {
+public class BtDeviceProperty extends DeviceProperty {
 
 	//member
 	LocalDevice local;
