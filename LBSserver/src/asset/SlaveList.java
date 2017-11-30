@@ -51,6 +51,18 @@ public class SlaveList implements Classifier,Serializable{
 		return nearest;
 	}
 
+    // 名前検索
+    public static DeviceProperty slaveSearch(String deviceName){
+        for(Iterator<DeviceProperty> it = SlaveList.getInstance().slaveList.iterator(); it.hasNext();){
+            DeviceProperty tmp = it.next();
+            if(tmp.getName()==deviceName){
+                return tmp;
+            }
+        }
+        return null;
+    }
+
+
 	public static SlaveList getInstance(){
 		return sl;
 	}
