@@ -35,7 +35,7 @@ public class MainApplication {
 			timer.schedule(new ListUpdater(), 0, 100000);
 
 
-			Thread udpRecvThread = new Thread(new UdpRecvThread());
+			Thread udpRecvThread = new Thread(new UdpRecvThread(Constants.SERVER_RECV_PORT));
 			udpRecvThread.start();
 
 			//UDPブロードキャスト送信スレッド

@@ -55,11 +55,12 @@ public class UwbRecvPacketFunction {
 			break;
 		case RECV_POSITION_PACKET:
 			System.out.println("["+ ts.toString() +"]" + "測位計算結果パケット");
-			ClientList.getInstance().listUpdate(data);
+			ClientList.listUpdate(data);
 			System.out.println("ClientList Updated");
 			break;
 
 		default:
+			System.out.println("[" + ts.toString() + "]" + data[0] + ":フォーマット外テキスト");
 			break;
 
 

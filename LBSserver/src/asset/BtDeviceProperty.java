@@ -48,7 +48,7 @@ public class BtDeviceProperty extends DeviceProperty {
 
 	//static method
 	//自身のBt情報をPropertyに変換
-	static BtDeviceProperty getLocalBtProperty(Property prop){
+	static BtDeviceProperty getLocalBtProperty(DeviceProperty prop){
 		try {
 			return new BtDeviceProperty(prop.getLocation(),prop.getName(),prop.getFunction(),prop.getClassify(),LocalDevice.getLocalDevice());
 		} catch (BluetoothStateException e) {

@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.util.LinkedList;
 
 public class UdpSendThread implements Runnable{
 
 	private String sendAddress = "";
 	private int recvPort = -1;
-	private boolean sendFlag = false;
-	private String sendData = "";
+	private LinkedList<String> sendData = new LinkedList<String>();
 
 	public UdpSendThread(String address,int port) {
 		this.sendAddress = address;
@@ -30,17 +30,17 @@ public class UdpSendThread implements Runnable{
 
 			while(true){
 
-				if(sendFlag){
+				if(!sendData.isEmpty()){
 					//送信処理
 					ByteBuffer buf = ByteBuffer.allocate(BUF_SIZE);
 					buf.clear();
-					buf.put(sendData.getBytes());
+					buf.put(sendData.get(0).getBytes());
 					buf.flip();
 
 					int sendByte = channel.send(buf,new InetSocketAddress(sendAddress, recvPort));
 					System.out.println("[" + sendData + "]:sendData");
 					System.out.println(sendByte + "bytes sent");
-					sendFlag = false;
+					sendData.pop();
 
 				}
 
@@ -51,10 +51,7 @@ public class UdpSendThread implements Runnable{
 	}
 
 	public void udpSend(String data){
-		while(sendFlag){
-		}
-		this.sendData = data;
-		sendFlag = true;
+		sendData.add(data);
 	}
 
 }
