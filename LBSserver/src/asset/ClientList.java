@@ -51,11 +51,13 @@ public class ClientList{
 			if(posPacket[1] == tmp.getName()){
 				//更新
 				tmp.setLocation(loc);
+				ClientList.writeList();
 				return;
 			}
 		}
 		//同名なしならadd
 		ClientList.getInstance().add(new DeviceProperty(loc,posPacket[1],new ArrayList<String>(),0));
+		ClientList.writeList();
 
 	}
 
@@ -72,7 +74,7 @@ public class ClientList{
 
 	public static void writeList(){
 		try {
-			XMLEncoder e = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("config" + File.separator + "ClientListList.xml")));
+			XMLEncoder e = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("config" + File.separator + "ClientList.xml")));
 			e.writeObject(ClientList.getInstance().clientList);
 			e.close();
 		} catch (FileNotFoundException e) {
