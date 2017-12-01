@@ -28,10 +28,6 @@ public class DeviceProperty extends Property {
 		}
 	}
 
-	public Order makeOrder(){
-		return new Order(this);
-	}
-
 	//constructor
 	public DeviceProperty(){
 	}

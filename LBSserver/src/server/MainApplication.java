@@ -21,8 +21,9 @@ public class MainApplication {
 			//各種リストの取得
 			SlaveList.loadList();
 			System.out.println(ClientList.getInstance().toString());
-			ClientList.loadList();
-			System.out.println(SlaveList.getInstance().toString());
+			ClientList.clearList();
+//			ClientList.loadList();
+//			System.out.println(SlaveList.getInstance().toString());
 
 			//通信用TCPIPソケットサーバの確立
 			addr = "localhost";
@@ -32,14 +33,15 @@ public class MainApplication {
 
 			//クライアントへのリスト更新スケジューラ
 			Timer timer = new Timer();
-			timer.schedule(new ListUpdater(), 0, 100000);
+			timer.schedule(new ListUpdater(), 0, 10*1000);
 
 
 			Thread udpRecvThread = new Thread(new UdpRecvThread(Constants.SERVER_RECV_PORT));
 			udpRecvThread.start();
 
 			//UDPブロードキャスト送信スレッド
-			Thread udpSendThread  = new Thread(new UdpSendThread("255.255.255.255", Constants.UWB_RECV_PORT));
+			udpSend = new UdpSendThread("255.255.255.255", Constants.UWB_RECV_PORT);
+			Thread udpSendThread  = new Thread(udpSend);
 			udpSendThread.start();
 
 
@@ -49,7 +51,8 @@ public class MainApplication {
 			//これはＷｉＦｉ通信が何らかの理由で断線したときに対処するためです。
 			//ビーコンパケットを受信した固定機はビーコン応答パケットを返します。
 			Timer beaconTimer = new Timer();
-			beaconTimer.schedule(new BeaconSender(),0,1*1000*60);
+			//1分おきにスケジュール
+			beaconTimer.schedule(new BeaconSender(),0,10*1000);
 
 
 		}catch (Exception e1) {

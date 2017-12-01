@@ -9,13 +9,14 @@ public class Order implements Serializable, Classifier {
 	private static final long serialVersionUID = 1L;
 	private String order = "";
 	private ByteFile file;
-	private Property property;
 
-	public Order(String order){
+	private Property propA;
+	private Property propB;
+
+	public Order(String order,Property a, Property b){
 		this.order = order;
-	}
-	public Order(DeviceProperty prop){
-		this.order = prop.getSelection();
+		this.propA = a;
+		this.propB = b;
 	}
 
 	@Override
@@ -23,16 +24,10 @@ public class Order implements Serializable, Classifier {
 
 	}
 
-	public void setMessage(String order){
-		this.order = order;
-	}
-
 	public void setFile(ByteFile file){
 		this.file = file;
 	}
-	public void setProperty(Property prop){
-		this.property = prop;
-	}
+
 	@Override
 	public String getClassName() {
 		return "Order";
