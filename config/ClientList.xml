@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_121" class="java.beans.XMLDecoder">
+ <object class="java.util.ArrayList">
+  <void method="add">
+   <object class="asset.DeviceProperty">
+    <void property="function">
+     <object class="java.util.ArrayList"/>
+    </void>
+    <void property="location">
+     <object class="asset.IndoorLocation">
+      <void property="x">
+       <double>8001.0</double>
+      </void>
+      <void property="y">
+       <double>2071.0</double>
+      </void>
+      <void property="z">
+       <double>4702.0</double>
+      </void>
+     </object>
+    </void>
+    <void property="name">
+     <string>1002</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="asset.DeviceProperty">
+    <void property="function">
+     <object class="java.util.ArrayList"/>
+    </void>
+    <void property="location">
+     <object class="asset.IndoorLocation">
+      <void property="x">
+       <double>8001.0</double>
+      </void>
+      <void property="y">
+       <double>2451.0</double>
+      </void>
+      <void property="z">
+       <double>4254.0</double>
+      </void>
+     </object>
+    </void>
+    <void property="name">
+     <string>1003</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="asset.DeviceProperty">
+    <void property="function">
+     <object class="java.util.ArrayList"/>
+    </void>
+    <void property="location">
+     <object class="asset.IndoorLocation">
+      <void property="x">
+       <double>8001.0</double>
+      </void>
+      <void property="y">
+       <double>3471.0</double>
+      </void>
+      <void property="z">
+       <double>2873.0</double>
+      </void>
+     </object>
+    </void>
+    <void property="name">
+     <string>1002</string>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>
