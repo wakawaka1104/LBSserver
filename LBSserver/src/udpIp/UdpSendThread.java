@@ -44,8 +44,10 @@ public class UdpSendThread implements Runnable{
 
 				}
 
+				Thread.sleep(100);
+
 			}
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}

@@ -51,7 +51,7 @@ public class UwbRecvPacketFunction {
 			System.out.println("["+ ts.toString() +"]" + "固定機UWB受信設定応答パケット");
 			break;
 		case RECV_DISTANCE_PACKET:
-			System.out.println("["+ ts.toString() +"]" + "距離パケット");
+//			System.out.println("["+ ts.toString() +"]" + "距離パケット");
 			break;
 		case RECV_POSITION_PACKET:
 			System.out.println("["+ ts.toString() +"]" + "測位計算結果パケット");

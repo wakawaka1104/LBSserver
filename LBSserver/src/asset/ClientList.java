@@ -28,36 +28,39 @@ public class ClientList{
 	}
 
 
-	public static void listUpdate(String[] posPacket){
+	synchronized public static void listUpdate(String[] posPacket){
 		//posPacket
 		//[0]:"POS"
-		//[1]:移動機シリアル番号
-		//[2]:測位計算結果座標x
-		//[3]:y
-		//[4]:z
-		//[5]:有効な測距結果を得た固定機数
-		//[6]:測位年月日 yy/mm/dd
-		//[7]:測位時刻 hh:mm::ss.msms
-		//[8]:ignored data
+		//[1]:固定機シリアル番号
+		//[2]:移動機シリアル番号
+		//[3]:測位計算結果座標x
+		//[4]:y
+		//[5]:z
+		//[6]:有効な測距結果を得た固定機数
+		//[7]:測位年月日 yy/mm/dd
+		//[8]:測位時刻 hh:mm::ss.msms
+		//[9]:ignored data
 
 		//name = シリアル番号
 		//リスト中に同名のクライアントがあれば、それを更新
 		//なければadd
 
-		IndoorLocation loc = new IndoorLocation(Double.parseDouble(posPacket[2]),Double.parseDouble(posPacket[3]),Double.parseDouble(posPacket[4]));
+		IndoorLocation loc = new IndoorLocation(Double.parseDouble(posPacket[3]),Double.parseDouble(posPacket[4]),Double.parseDouble(posPacket[5]));
 
 		for(Iterator<DeviceProperty> it = ClientList.getInstance().clientList.iterator();it.hasNext();){
 			DeviceProperty tmp = it.next();
-			if(posPacket[1] == tmp.getName()){
+			if(posPacket[2] == tmp.getName()){
 				//更新
 				tmp.setLocation(loc);
 				ClientList.writeList();
+				System.out.println("ClientListUpdated:" + ClientList.getInstance().toString());
 				return;
 			}
 		}
 		//同名なしならadd
 		ClientList.getInstance().add(new DeviceProperty(loc,posPacket[1],new ArrayList<String>(),0));
 		ClientList.writeList();
+		System.out.println("ClientListUpdated:" + ClientList.getInstance().toString());
 
 	}
 
@@ -80,6 +83,9 @@ public class ClientList{
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	public static void clearList(){
+		ClientList.getInstance().clientList = new ArrayList<DeviceProperty>();
 	}
 
 	public String toString(){
