@@ -14,7 +14,14 @@ public class TcpipDeviceProperty extends DeviceProperty {
 	//public func
 	@Override
 	public void readFunc(byte header, SocketComm sc) {
-		SlaveList.getInstance().add(this);
+		DeviceProperty tmp = SlaveList.search(this.name);
+		if(tmp!=null){
+			//update
+			tmp.setLocation(this.location);
+		}else{
+			//add
+			SlaveList.getInstance().add(this);
+		}
 	}
 
 	public TcpipDeviceProperty(IndoorLocation location, String ip,int port,String name, ArrayList<String> function,int classify){
@@ -46,13 +53,13 @@ public class TcpipDeviceProperty extends DeviceProperty {
 			return sc;
 		}else{
 			try{
-					sc = new SocketClient(ip, port);
-					Thread clientThread = new Thread(sc);
-					clientThread.start();
-					return sc;
-				}catch (Exception e) {
-					System.err.println("Property:getSocketClient:connection()[error]");
-					return null;
+				sc = new SocketClient(ip, port);
+				Thread clientThread = new Thread(sc);
+				clientThread.start();
+				return sc;
+			}catch (Exception e) {
+				System.err.println("Property:getSocketClient:connection()[error]");
+				return null;
 			}
 		}
 	}

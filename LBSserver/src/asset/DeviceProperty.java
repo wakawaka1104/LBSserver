@@ -10,18 +10,25 @@ public class DeviceProperty extends Property {
 	private static final long serialVersionUID = 2L;
 
 	//member
-	private int classify;
-	private IndoorLocation location;
-	private String name;
-	private ArrayList<String> function;
-	private String selection ="";
+	protected int classify;
+	protected  IndoorLocation location;
+	protected String name;
+	protected ArrayList<String> function;
+	protected String selection ="";
 
 
 	@Override
 	public void readFunc(byte header, SocketComm sc) {
 		switch(header){
 			case (byte)0:
-				SlaveList.getInstance().add(this);
+				DeviceProperty tmp = SlaveList.search(this.name);
+				if(tmp!=null){
+					//update
+					tmp.setLocation(this.location);
+				}else{
+					//add
+					SlaveList.getInstance().add(this);
+				}
 				break;
 			case (byte)1:
 				System.out.println(toString());
