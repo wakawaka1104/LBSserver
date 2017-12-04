@@ -2,14 +2,12 @@ package asset;
 
 import java.util.ArrayList;
 
-import tcpIp.SocketClient;
 import tcpIp.SocketComm;
 
 public class TcpipDeviceProperty extends DeviceProperty {
 	//member
 	private String ip;
 	private int port;
-	private SocketClient sc;
 
 	//public func
 	@Override
@@ -20,7 +18,7 @@ public class TcpipDeviceProperty extends DeviceProperty {
 			tmp.setLocation(this.location);
 		}else{
 			//add
-			SlaveList.getInstance().add(this);
+			SlaveList.add(this);
 		}
 	}
 
@@ -48,21 +46,7 @@ public class TcpipDeviceProperty extends DeviceProperty {
 	public void setPort(int port) {
 		this.port = port;
 	}
-	public SocketClient getSocketClient() {
-		if(sc != null)	{
-			return sc;
-		}else{
-			try{
-				sc = new SocketClient(ip, port);
-				Thread clientThread = new Thread(sc);
-				clientThread.start();
-				return sc;
-			}catch (Exception e) {
-				System.err.println("Property:getSocketClient:connection()[error]");
-				return null;
-			}
-		}
-	}
+
 	public String toString(){
 		return "Location:"+this.getLocation().toString()+"\n"+"ip:"+ip.toString()+"\n"+"port:"+port+"\n"+"name:"+this.getName()+"\n" ;
 	}

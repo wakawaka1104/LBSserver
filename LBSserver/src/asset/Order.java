@@ -2,7 +2,6 @@ package asset;
 
 import java.io.Serializable;
 
-import tcpIp.SocketClient;
 import tcpIp.SocketComm;
 
 public class Order implements Serializable, Classifier {
@@ -34,10 +33,10 @@ public class Order implements Serializable, Classifier {
 		}else{
 			tmpB = (DeviceProperty)propB;
 		}
-		SocketClient propAsocket = ((TcpipDeviceProperty)tmpA).getSocketClient();
-		propAsocket.asyncSend(this, (byte)0);
-		SocketClient propBsocket = ((TcpipDeviceProperty)tmpB).getSocketClient();
-		propBsocket.asyncSend(this, (byte)0);
+//		SocketClient propAsocket = ((TcpipDeviceProperty)tmpA).getSocketClient();
+//		propAsocket.asyncSend(this, (byte)0);
+//		SocketClient propBsocket = ((TcpipDeviceProperty)tmpB).getSocketClient();
+//		propBsocket.asyncSend(this, (byte)0);
 
 	}
 
