@@ -27,7 +27,7 @@ public class DeviceProperty extends Property {
 					tmp.setLocation(this.location);
 				}else{
 					//add
-					SlaveList.getInstance().add(this);
+					SlaveList.add(this);
 				}
 				break;
 			case (byte)1:

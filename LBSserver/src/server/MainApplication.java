@@ -27,7 +27,7 @@ public class MainApplication {
 
 			//クライアントへのリスト更新スケジューラ
 			Timer timer = new Timer();
-			timer.schedule(new ListUpdater(), 0, 10*1000);
+			timer.schedule(new ListUpdater(), 0, 1*1000);
 
 			Thread udpRecvThread = new Thread(new UdpRecvThread(Constants.SERVER_RECV_PORT));
 			udpRecvThread.start();

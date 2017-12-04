@@ -56,7 +56,7 @@ public class UwbRecvPacketFunction {
 		case RECV_POSITION_PACKET:
 			System.out.println("["+ ts.toString() +"]" + "測位計算結果パケット");
 			SlaveList.listUpdate(data);
-			System.out.println("ClientList Updated");
+			System.out.println("SlaveList Updated");
 			break;
 
 		default:

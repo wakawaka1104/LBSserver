@@ -55,7 +55,7 @@ public class SlaveList implements Classifier,Serializable{
     public static DeviceProperty search(String deviceName){
         for(Iterator<DeviceProperty> it = SlaveList.getInstance().slaveList.iterator(); it.hasNext();){
             DeviceProperty tmp = it.next();
-            if(tmp.getName()==deviceName){
+            if(tmp.getName().equals(deviceName)){
                 return tmp;
             }
         }
@@ -89,6 +89,10 @@ public class SlaveList implements Classifier,Serializable{
 		}
 	}
 
+	public static void clearList(){
+		SlaveList.getInstance().getList().clear();
+	}
+
 
 	synchronized public static void listUpdate(String[] posPacket){
 		//posPacket
@@ -111,7 +115,7 @@ public class SlaveList implements Classifier,Serializable{
 
 		for(Iterator<DeviceProperty> it = SlaveList.getInstance().slaveList.iterator();it.hasNext();){
 			DeviceProperty tmp = it.next();
-			if(posPacket[2] == tmp.getName()){
+			if(posPacket[2].equals(tmp.getName())){
 				//更新
 				tmp.setLocation(loc);
 				SlaveList.writeList();
@@ -120,15 +124,17 @@ public class SlaveList implements Classifier,Serializable{
 			}
 		}
 		//同名なしならadd
-		SlaveList.getInstance().add(new DeviceProperty(loc,posPacket[1],new ArrayList<String>(),0));
+		SlaveList.add(new DeviceProperty(loc,posPacket[1],new ArrayList<String>(),0));
 		SlaveList.writeList();
 		System.out.println("SlaveListUpdated:" + SlaveList.getInstance().toString());
 
 	}
 
 
-	public void add(DeviceProperty a){
-		slaveList.add(a);
+	public static void add(DeviceProperty a){
+		SlaveList.getInstance().getList().add(a);
+		SlaveList.writeList();
+		System.out.println("SlaveListUpdated:\n" + SlaveList.getInstance().toString());
 	}
 
 	public String toString(){
@@ -159,8 +165,53 @@ public class SlaveList implements Classifier,Serializable{
 //		writeList();
 
 		//read
-		loadList();
+//		loadList();
+//		System.out.println(SlaveList.getInstance().toString());
+
+		//clear
+		clearList();
 		System.out.println(SlaveList.getInstance().toString());
+
+//		//ADD test method
+//
+//		SlaveList.loadList();
+//
+//		ArrayList<String> func1 = new ArrayList<>();
+//		func1.add("file receive");
+//		DeviceProperty prop1 = new DeviceProperty(new IndoorLocation(5750,2500,1200),"test1",func1,1001);
+//		prop1.readFunc((byte)0, null);
+//
+//		ArrayList<String> func2 = new ArrayList<>();
+//		func2.add("cooperation");
+//		func2.add("get administration");
+//		DeviceProperty prop2 = new DeviceProperty(new IndoorLocation(5750,3200,1200),"test2",func2,1002);
+//
+//		//update test
+//		System.out.println("[Update test]");
+//		System.out.println("*****preview*****");
+//		System.out.println(SlaveList.getInstance().toString());
+//		System.out.println("*****************");
+//
+//		new DeviceProperty(new IndoorLocation(1,1,1),"test1",func1,1001).readFunc((byte)0,null);
+//
+//		System.out.println("*****result*****");
+//		System.out.println(SlaveList.getInstance().toString());
+//		System.out.println("*****************");
+//
+//		//add test
+//		System.out.println("[add test]");
+//		System.out.println("*****preview*****");
+//		System.out.println(SlaveList.getInstance().toString());
+//		System.out.println("*****************");
+//
+//		prop2.readFunc((byte)0, null);
+//
+//		System.out.println("*****result*****");
+//		System.out.println(SlaveList.getInstance().toString());
+//		System.out.println("*****************");
+//
+//		SlaveList.writeList();
+
 
 	}
 
