@@ -13,7 +13,7 @@ public class TcpipDeviceProperty extends DeviceProperty implements Serializable,
 	//public func
 	@Override
 	public void readFunc(byte header, SocketComm sc) {
-		DeviceProperty tmp = SlaveList.search(this.name);
+		DeviceProperty tmp = SlaveList.slaveSearch(this.name);
 		if(tmp!=null){
 			//update
 			tmp.setLocation(this.location);

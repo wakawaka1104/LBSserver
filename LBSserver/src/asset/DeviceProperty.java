@@ -21,7 +21,7 @@ public class DeviceProperty extends Property {
 	public void readFunc(byte header, SocketComm sc) {
 		switch(header){
 			case (byte)0:
-				DeviceProperty tmp = SlaveList.search(this.name);
+				DeviceProperty tmp = SlaveList.slaveSearch(this.name);
 				if(tmp!=null){
 					//update
 					tmp.setLocation(this.location);

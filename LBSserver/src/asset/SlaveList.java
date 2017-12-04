@@ -52,7 +52,7 @@ public class SlaveList implements Classifier,Serializable{
 	}
 
     // 名前検索
-    public static DeviceProperty search(String deviceName){
+    public static DeviceProperty slaveSearch(String deviceName){
         for(Iterator<DeviceProperty> it = SlaveList.getInstance().slaveList.iterator(); it.hasNext();){
             DeviceProperty tmp = it.next();
             if(tmp.getName().equals(deviceName)){
