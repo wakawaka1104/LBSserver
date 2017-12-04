@@ -2,6 +2,7 @@ package asset;
 
 import java.io.Serializable;
 
+import tcpIp.SocketClient;
 import tcpIp.SocketComm;
 
 public class Order implements Serializable, Classifier {
@@ -21,6 +22,22 @@ public class Order implements Serializable, Classifier {
 
 	@Override
 	public void readFunc(byte header, SocketComm sc) {
+		DeviceProperty tmpA;
+		DeviceProperty tmpB;
+		if(propA instanceof ContentProperty){
+			tmpA = ((ContentProperty) propA).getParent();
+		}else{
+			tmpA = (DeviceProperty)propA;
+		}
+		if(propB instanceof ContentProperty){
+			tmpB = ((ContentProperty) propB).getParent();
+		}else{
+			tmpB = (DeviceProperty)propB;
+		}
+		SocketClient propAsocket = ((TcpipDeviceProperty)tmpA).getSocketClient();
+		propAsocket.asyncSend(this, (byte)0);
+		SocketClient propBsocket = ((TcpipDeviceProperty)tmpB).getSocketClient();
+		propBsocket.asyncSend(this, (byte)0);
 
 	}
 

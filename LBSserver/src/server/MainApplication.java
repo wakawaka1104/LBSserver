@@ -3,7 +3,6 @@ package server;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import asset.ClientList;
 import asset.SlaveList;
 import tcpIp.SocketServer;
 import udpIp.Constants;
@@ -20,11 +19,6 @@ public class MainApplication {
 		try {
 			//各種リストの取得
 			SlaveList.loadList();
-			System.out.println(ClientList.getInstance().toString());
-			ClientList.clearList();
-//			ClientList.loadList();
-//			System.out.println(SlaveList.getInstance().toString());
-
 			//通信用TCPIPソケットサーバの確立
 			addr = "localhost";
 			ts = new SocketServer(addr, 11111);
@@ -35,7 +29,6 @@ public class MainApplication {
 			Timer timer = new Timer();
 			timer.schedule(new ListUpdater(), 0, 10*1000);
 
-
 			Thread udpRecvThread = new Thread(new UdpRecvThread(Constants.SERVER_RECV_PORT));
 			udpRecvThread.start();
 
@@ -44,8 +37,8 @@ public class MainApplication {
 			Thread udpSendThread  = new Thread(udpSend);
 			udpSendThread.start();
 
-
 			//UWB仕様書より↓
+
 			//ＰＣから各固定機に定期的にビーコンパケットを送る必要があります。
 			//各固定機はこのビーコンパケットが約１０分間届かないと再起動を行います。
 			//これはＷｉＦｉ通信が何らかの理由で断線したときに対処するためです。

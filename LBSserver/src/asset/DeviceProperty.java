@@ -21,7 +21,7 @@ public class DeviceProperty extends Property {
 	public void readFunc(byte header, SocketComm sc) {
 		switch(header){
 			case (byte)0:
-				SlaveList.getInstance().slaveAdd(this);
+				SlaveList.getInstance().add(this);
 				break;
 			case (byte)1:
 				System.out.println(toString());

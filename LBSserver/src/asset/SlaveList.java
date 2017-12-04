@@ -89,9 +89,46 @@ public class SlaveList implements Classifier,Serializable{
 		}
 	}
 
-	public void slaveAdd(DeviceProperty a){
+
+	synchronized public static void listUpdate(String[] posPacket){
+		//posPacket
+		//[0]:"POS"
+		//[1]:固定機シリアル番号
+		//[2]:移動機シリアル番号
+		//[3]:測位計算結果座標x
+		//[4]:y
+		//[5]:z
+		//[6]:有効な測距結果を得た固定機数
+		//[7]:測位年月日 yy/mm/dd
+		//[8]:測位時刻 hh:mm::ss.msms
+		//[9]:ignored data
+
+		//name = シリアル番号
+		//リスト中に同名のクライアントがあれば、それを更新
+		//なければadd
+
+		IndoorLocation loc = new IndoorLocation(Double.parseDouble(posPacket[3]),Double.parseDouble(posPacket[4]),Double.parseDouble(posPacket[5]));
+
+		for(Iterator<DeviceProperty> it = SlaveList.getInstance().slaveList.iterator();it.hasNext();){
+			DeviceProperty tmp = it.next();
+			if(posPacket[2] == tmp.getName()){
+				//更新
+				tmp.setLocation(loc);
+				SlaveList.writeList();
+				System.out.println("SlaveListUpdated:" + SlaveList.getInstance().toString());
+				return;
+			}
+		}
+		//同名なしならadd
+		SlaveList.getInstance().add(new DeviceProperty(loc,posPacket[1],new ArrayList<String>(),0));
+		SlaveList.writeList();
+		System.out.println("SlaveListUpdated:" + SlaveList.getInstance().toString());
+
+	}
+
+
+	public void add(DeviceProperty a){
 		slaveList.add(a);
-		System.out.println(toString());
 	}
 
 	public String toString(){

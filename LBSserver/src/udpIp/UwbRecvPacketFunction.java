@@ -4,7 +4,7 @@ import static udpIp.Constants.*;
 
 import com.sun.jmx.snmp.Timestamp;
 
-import asset.ClientList;
+import asset.SlaveList;
 
 public class UwbRecvPacketFunction {
 
@@ -55,7 +55,7 @@ public class UwbRecvPacketFunction {
 			break;
 		case RECV_POSITION_PACKET:
 			System.out.println("["+ ts.toString() +"]" + "測位計算結果パケット");
-			ClientList.listUpdate(data);
+			SlaveList.listUpdate(data);
 			System.out.println("ClientList Updated");
 			break;
 
