@@ -124,9 +124,9 @@ public class SlaveList implements Classifier,Serializable{
 			}
 		}
 		//同名なしならadd
-		SlaveList.add(new DeviceProperty(loc,posPacket[1],new ArrayList<String>(),0));
+		SlaveList.add(new DeviceProperty(loc,posPacket[2],new ArrayList<String>(),0));
 		SlaveList.writeList();
-		System.out.println("SlaveListUpdated:" + SlaveList.getInstance().toString());
+		System.out.println("SlaveListAdded:" + SlaveList.getInstance().toString());
 
 	}
 
@@ -153,24 +153,53 @@ public class SlaveList implements Classifier,Serializable{
 	//test method
 
 	public static void main(String[] args) throws FileNotFoundException {
-//		//write
-//		ArrayList<String> func1 = new ArrayList<>();
-//		ArrayList<String> func2 = new ArrayList<>();
-//		func1.add("file receive");
-//		func2.add("cooperation");
-//		func2.add("get administration");
-//
-//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(5750,2500,1200),"test1",func1,1001));
-//		SlaveList.getInstance().slaveAdd(new Property(new IndoorLocation(5750,3200,1200),"test2",func2,1002));
-//		writeList();
+		//write
+		ArrayList<String> funcDisplay = new ArrayList<>();
+		ArrayList<String> funcCamera = new ArrayList<>();
+		ArrayList<String> funcClient = new ArrayList<>();
+
+
+		funcDisplay.add("file send");
+		funcClient.add("greeting");
+
+		String windowsIP = "192.168.1.106";
+		String macIP = "192.168.1.108";
+		String tangoIP = "";
+		String androidIP = "";
+
+		int windowsPort = 12345;
+		int macPort = 10101;
+		int tangoPort = 0;
+		int androidPort = 0;
+
+		int cameraCla = 2;
+		int screenCla = 1001;
+		int clientCla = 5;
+
+		//camera1(USB)
+		SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(5636,5281,1877),macIP,macPort,"cameraUSB",funcCamera,cameraCla));
+		//camera2(inner)
+//		SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(5750,3200,1200),windowsIP,windowsPort,"cameraInner",funcCamera,cameraCla));
+		//display1(big)
+		SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(5722,5055,1130),windowsIP,windowsPort,"bigDisplay",funcDisplay,screenCla));
+		//display2(pc)
+//		SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(5750,3200,1200),macIP,macPort,"PCdisplay",funcDisplay,screenCla));
+
+		//client1(tango)
+		SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(5750,3200,1200),tangoIP,tangoPort,"8001",funcClient,clientCla));
+		//client2(android)
+//		SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(5750,3200,1200),androidIP,androidPort,"8002",funcClient,clientCla));
+
+		writeList();
 
 		//read
 //		loadList();
 //		System.out.println(SlaveList.getInstance().toString());
 
-		//clear
-		clearList();
-		System.out.println(SlaveList.getInstance().toString());
+//		//clear
+//		clearList();
+//		writeList();
+//		System.out.println(SlaveList.getInstance().toString());
 
 //		//ADD test method
 //

@@ -16,7 +16,7 @@ public class TcpipDeviceProperty extends DeviceProperty implements Serializable,
 		DeviceProperty tmp = SlaveList.slaveSearch(this.name);
 		if(tmp!=null){
 			//update
-			tmp.setLocation(this.location);
+			tmp = new TcpipDeviceProperty(this);
 		}else{
 			//add
 			SlaveList.add(this);
