@@ -12,7 +12,8 @@ public class CameraAppTest {
 
 	  public void takePicture() throws IOException {
 		    Webcam webcam = null;
-		    webcam = Webcam.getDefault();
+//		    webcam = Webcam.getDefault();
+		    webcam = Webcam.getWebcams().get(1);
 		    if (webcam != null) {
 		      System.out.println("Webcam : " + webcam.getName());
 		      webcam.open();

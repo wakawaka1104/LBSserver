@@ -40,9 +40,9 @@ public class MainApplication {
 			funcDisplay.add("file send");
 			funcClient.add("greeting");
 
-			String windowsIP = "192.168.1.106";
-			String macIP = "192.168.1.108";
-			String tangoIP = "";
+			String windowsIP = "192.168.1.101";
+			String macIP = "192.168.1.102";
+			String tangoIP = "192.168.1.108";
 			String androidIP = "";
 
 			int windowsPort = 12345;
@@ -55,11 +55,11 @@ public class MainApplication {
 			int clientCla = 5;
 
 			//camera1(USB)
-			SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(4307,2126,1745),macIP,macPort,"cameraUSB",funcCamera,cameraCla));
+			SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(3300,500,1500),windowsIP,windowsPort,"cameraUSB",funcCamera,cameraCla));
 			//camera2(inner)
-//			SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(5750,3200,1200),windowsIP,windowsPort,"cameraInner",funcCamera,cameraCla));
+			SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(4000,2200,1000),macIP,macPort,"cameraInner",funcCamera,cameraCla));
 			//display1(big)
-			SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(4449,2513,1737),windowsIP,windowsPort,"bigDisplay",funcDisplay,screenCla));
+			SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(3300,500,1000),windowsIP,windowsPort+1,"bigDisplay",funcDisplay,screenCla));
 			//display2(pc)
 //			SlaveList.add(new TcpipDeviceProperty(new IndoorLocation(5750,3200,1200),macIP,macPort,"PCdisplay",funcDisplay,screenCla));
 
